@@ -1,0 +1,100 @@
+
+#solo-playground {
+    display: flex;
+    flex-direction: column;
+}
+
+.playground {
+    display: flex;
+    flex-direction: row;
+}
+
+#nextCanvas {
+    width: 135px;
+    height: 135px;
+}
+
+.playground-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.playground-title {
+    font-family: 'Lobster', sans-serif;
+    color: white;
+    font-size: 30px;
+    margin: 0;
+    margin-right: 15px;
+}
+
+.playground-mode {
+    font-family: 'Lobster', sans-serif;
+    color: white;
+    font-size: 15px;
+    margin: 0;
+}
+
+.playground-viewbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.playground-score {
+    font-family: 'Lobster', sans-serif;
+    font-size: 18px;
+    margin-left: 20px;
+    color: white;
+}
+
+.playground-pause {
+    font-family: 'Lobster', sans-serif;
+    font-size: 18px;
+    margin-left: 20px;
+    color: #8d1818;
+}
+
+.playground-notify {
+    position: absolute;
+    display: flex;
+    animation-duration: 1, 1.5;
+    animation-name: zoomIn, fadeOut;
+    -webkit-animation-name: zoomIn, fadeOut;
+}
+
+.playground-notify p {
+    font-family: 'Lobster', sans-serif;
+    background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #0fb8ad), color-stop(0.5, #1fc8db), color-stop(1, #2cb5e8));
+    background-image: gradient( linear, left top, right top, color-stop(0, #0fb8ad), color-stop(0.5, #1fc8db), color-stop(1, #2cb5e8));
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    -webkit-user-select: none;      
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 70px;
+}
+
+/* Low Resolution Tablets, Mobiles (Landscape) */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    #solo-playground {
+        -ms-transform: scale(0.7, 0.7);
+        -webkit-transform: scale(0.7, 0.7);
+        transform: scale(0.7, 0.7);
+    }
+}
+
+/* Most of the Smartphones Mobiles (Portrait) */
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    #solo-playground {
+        -ms-transform: scale(0.7, 0.7);
+        -webkit-transform: scale(0.7, 0.7);
+        transform: scale(0.7, 0.7);
+    }
+}

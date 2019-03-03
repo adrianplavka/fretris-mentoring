@@ -1,0 +1,75 @@
+
+#duo-playground {
+    display: flex;
+    flex-direction: column;
+}
+
+#duo-playground .playground-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.playground-header-title {
+    display: flex;
+    flex-direction: row;
+}
+
+.playground-id {
+    font-family: 'Noto Sans', sans-serif;
+    color: white;
+    font-size: 15px;
+    margin: 0;
+}
+
+#playground-me {
+    display: flex;
+    justify-content: center;
+}
+
+#playground-other {
+    display: flex;
+    justify-content: center;
+}
+
+.playground-notify {
+    position: absolute;
+    display: flex;
+    align-self: center;
+    animation-duration: 1, 1.5;
+    animation-name: zoomIn, fadeOut;
+    -webkit-animation-name: zoomIn, fadeOut;
+}
+
+.playground-notify p {
+    font-family: 'Lobster', sans-serif;
+    background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #0fb8ad), color-stop(0.5, #1fc8db), color-stop(1, #2cb5e8));
+    background-image: gradient( linear, left top, right top, color-stop(0, #0fb8ad), color-stop(0.5, #1fc8db), color-stop(1, #2cb5e8));
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    -webkit-user-select: none;      
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 70px;
+}
+
+/* Low Resolution Tablets, Mobiles (Landscape) */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    #duo-playground {
+        -ms-transform: scale(0.5, 0.5);
+        -webkit-transform: scale(0.5, 0.5);
+        transform: scale(0.5, 0.5);
+    }
+}
+
+/* Most of the Smartphones Mobiles (Portrait) */
+@media screen and (min-width: 320px) and (max-width: 480px) {
+    #duo-playground {
+        -ms-transform: scale(0.5, 0.5);
+        -webkit-transform: scale(0.5, 0.5);
+        transform: scale(0.5, 0.5);
+    }
+}

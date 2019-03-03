@@ -1,0 +1,10 @@
+﻿
+#wrapper {
+    width: 800px;
+    margin: 0 auto;
+}
+
+#gameCanvas {
+    height: 360px;
+    width: 240px;
+}

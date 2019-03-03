@@ -1,0 +1,105 @@
+
+.auth-space {
+    margin: 3px;
+}
+
+.auth-title {
+    font-family: 'Lobster', sans-serif;
+    color: white;
+    font-size: 50px;
+}
+
+.auth-switch {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    margin-bottom: 10px;
+}
+
+.auth-input-username {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
+    background: transparent;
+    color: white;
+    outline: none;
+    text-align: center;
+    padding: 5px;
+    border: 1.5px solid #00adb5;
+    -webkit-border-radius: 5px;
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+}
+
+.auth-input-username:focus {
+    color: white;
+    border: 1.5px solid white;
+}
+
+.auth-input-id {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
+    background: transparent;
+    color: white;
+    outline: none;
+    text-align: center;
+    padding: 5px;
+    margin-top: 10px;
+    border: 1.5px solid #00adb5;
+    -webkit-border-radius: 5px;
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+}
+
+.auth-input-id:focus {
+    color: white;
+    border: 1.5px solid white;
+}
+
+.auth-btn {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 12px;
+    width: 100px;
+    height: 30px;
+    background: none;
+    outline: none;
+    color: #f5f5f5;
+    border: 1px solid #00adb5;
+    margin-top: 10px;
+    margin-right: 5px;
+    padding-top: -10px;
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+}
+
+.auth-duo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth-btn:hover {
+    border: 1px solid white;
+    color: white;
+}
+
+.auth-duo-context {
+    display: flex;
+    flex-direction: row;
+}
+
+.selected {
+    border: 1px solid white;
+    color: white;
+}
+
+footer {
+    margin-top: 10px;
+    color: white;
+    font-size: 10px;
+}
