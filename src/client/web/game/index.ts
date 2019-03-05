@@ -784,6 +784,13 @@ export class SoloGame {
          */
 
          // Your code goes here.
+         if (this.phase == this.gameState.paused) {
+             this.setPlayingState();
+         }
+         if (this.phase == this.gameState.playing) {
+            this.setPausedState();
+         }
+
     }
 
     private setPlayingState() {
