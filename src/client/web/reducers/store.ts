@@ -27,3 +27,5 @@ export const initStore = (): Redux.Store<RootState> => {
             : undefined
     );
 };
+
+export const store = initStore();

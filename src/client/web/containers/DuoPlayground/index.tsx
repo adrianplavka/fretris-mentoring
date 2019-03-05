@@ -6,7 +6,7 @@ import * as Hammer from 'hammerjs';
 
 import { GameConnection } from '../../network';
 import { setScore, setPause } from '../../actions/playground';
-import { store } from '../../index';
+import { store } from '../../reducers/store';
 import { DuoGame as Tetris, Point } from '../../game';
 import { RootState } from '../../reducers/store';
 import { isMobile } from '../../utils';

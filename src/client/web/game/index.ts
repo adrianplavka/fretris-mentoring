@@ -1,8 +1,8 @@
 
 import * as _ from 'lodash';
 import * as io from 'socket.io-client';
+import { store } from '../reducers/store';
 
-import { store } from '../index';
 import { setScore, setPause } from '../actions/playground';
 
 // shim layer with setTimeout fallback
@@ -43,28 +43,56 @@ export class Shape {
         this.points = newPoints;
     }
 
-    // return a set of points showing where this shape would be if we dropped it one
+    // Return a set of points showing where this shape would be if we dropped it by one
     public drop(): Point[] {
-        return this.move(0, 1);
+        /**
+         * #5 Bug:
+         * 
+         * User can move Tetris shapes to the left, right & down.
+         * This method should move all the blocks of the shape downwards, but since it's missing,
+         * it doesn't do anything.
+         * 
+         * 'this.move' is a method, that accepts x & y coordinates.
+         * It will move all the blocks into certain directions, depending on the x & y coordinates.
+         * 
+         * Since downward movement is always changing the y coordinate, the x should remain zero.
+         * Call this method, that will increase the y coordinates by 1 and then return the value of this method.
+         */
+
+        // Your code goes here.
+        return undefined;
     }
 
-    // return a set of points showing where this shape would be if we moved left one
+    // Return a set of points showing where this shape would be if we moved left by one
     public moveLeft(): Point[] {
         return this.move(-1, 0);
     }
 
-    // return a set of points showing where this shape would be if we moved right one
+    // Return a set of points showing where this shape would be if we moved right by one
     public moveRight(): Point[] {
-        return this.move(1, 0);
+        /**
+         * #7 Bug:
+         * 
+         * User can move Tetris shapes to the left, right & down.
+         * This method should move all the blocks of the shape to the right, but since it's missing,
+         * it doesn't do anything.
+         * 
+         * 'this.move' is a method, that accepts x & y coordinates.
+         * It will move all the blocks into certain directions, depending on the x & y coordinates.
+         * 
+         * Since the right movement is always changing the x coordinate, the y should remain zero.
+         * Call this method, that will increase the x coordinates by 1 and then return the value of this method.
+         */
+
+        // Your code goes here.
+        return undefined;
     }
 
-    // override these
-    // return a set of points showing where this shape would be if we rotate it
+    // Return a set of points showing where this shape would be if we rotate it
     public rotate(clockwise: boolean): Point[] {
         throw new Error("This method is abstract");
     }
 }
-
 
 export class SquareShape extends Shape {
     constructor(cols: number) {
@@ -80,8 +108,21 @@ export class SquareShape extends Shape {
     }
 
     public rotate(clockwise: boolean): Point[] {
-        // this shape does not rotate
-        return this.points;
+        /**
+         * #4 Bug:
+         * 
+         * Tetris blocks can rotate always by 90 degrees.
+         * This square shape can't rotate, as of yet.
+         * 
+         * Calculate the new points of this shape, when it rotates.
+         * After calculation, return the points.
+         * 
+         * (Hint: Since a square's shape doesn't change when rotating, 
+         * then just simply return 'this.points' attribute).
+         */
+
+        // Your code goes here.
+        return [new Point(0, 0)];
     }
 }
 
@@ -91,10 +132,7 @@ export class LShape extends Shape {
     constructor(leftHanded: boolean, cols: number) {
         super();
         this.leftHanded = leftHanded;
-        if (leftHanded)
-            this.fillColor = '#ff395e';
-        else
-            this.fillColor = '#0fc9e7';
+        this.setFillColor(leftHanded);
 
         var x = cols / 2;
         var y = -2;
@@ -104,6 +142,22 @@ export class LShape extends Shape {
         this.points.push(new Point(x, y)); // 1 is our base point
         this.points.push(new Point(x, y + 1));
         this.points.push(new Point(x + (leftHanded ? -1 : 1), y + 1));
+    }
+
+    public setFillColor(leftHanded: boolean): void {
+        /**
+         * #6 Bug:
+         * 
+         * Tetris blocks always have an appropriate color.
+         * This method should set a specific color to this block, but currently, it is empty, 
+         * so it won't assign any color.
+         * 
+         * There should exists a check, whether the parameter 'leftHanded' is true or false.
+         * If it's true, then it should assign a string value '#ff395e' to the 'this.fillColor' attribute.
+         * Otherwise, it should assign a string '#0fc9e7'.
+         */
+
+         // Your code goes here.
     }
 
     public rotate(clockwise: boolean): Point[] {
@@ -144,10 +198,7 @@ export class StepShape extends Shape {
 
     constructor(leftHanded: boolean, cols: number) {
         super();
-        if (leftHanded)
-            this.fillColor = '#3e4377';
-        else
-            this.fillColor = '#e9007f';
+        this.setFillColor(leftHanded);
 
         this.leftHanded = leftHanded;
         var x = cols / 2;
@@ -160,6 +211,21 @@ export class StepShape extends Shape {
         this.points.push(new Point(x + (leftHanded ? -1 : 1), y - 1));
     }
 
+    public setFillColor(leftHanded: boolean): void {
+        /**
+         * #3 Bug:
+         * 
+         * Tetris blocks always have an appropriate color.
+         * This method should set a specific color to this block, but currently, it is empty, 
+         * so it won't assign any color.
+         * 
+         * There should exists a check, whether the parameter 'leftHanded' is true or false.
+         * If it's true, then it should assign a string value '#3e4377' to the 'this.fillColor' attribute.
+         * Otherwise, it should assign a string '#e9007f'.
+         */
+
+         // Your code goes here.
+    }
 
     public rotate(clockwise: boolean): Point[] {
         this.rotation = (this.rotation + (clockwise ? 1 : -1)) % 2;
@@ -274,11 +340,11 @@ export class Grid {
     public backColor: any;
     private xOffset: number;
     private yOffset: number;
-    private tetrisNotifyCb: () => void;
+    private tetrisNotifyCallback: () => void;
 
-    constructor(rows: number, cols: number, blockSize: number, backColor: string | CanvasGradient, canvas: HTMLCanvasElement, tetrisNotifyCb?: () => void) {
+    constructor(rows: number, cols: number, blockSize: number, backColor: string | CanvasGradient, canvas: HTMLCanvasElement, tetrisNotifyCallback?: () => void) {
         this.canvas = canvas;
-        this.context = canvas.getContext("2d") as CanvasRenderingContext2D;
+        this.context = this.canvas && canvas.getContext("2d") as CanvasRenderingContext2D;
         this.blockSize = blockSize;
         this.blockColor = new Array(rows);
         this.backColor = backColor;
@@ -289,11 +355,13 @@ export class Grid {
         }
         this.xOffset = 20;
         this.yOffset = 20;
-        this.tetrisNotifyCb = tetrisNotifyCb;
+        this.tetrisNotifyCallback = tetrisNotifyCallback;
     }
 
     public draw(shape: Shape) {
-        this.paintShape(shape, shape.fillColor);
+        if (shape) {
+            this.paintShape(shape, shape.fillColor);
+        }
     }
 
     public erase(shape: Shape) {
@@ -340,11 +408,13 @@ export class Grid {
     }
 
     public eraseGrid() {
-        this.context.fillStyle = this.backColor;
-        var width = this.cols * this.blockSize;
-        var height = this.rows * this.blockSize;
-
-        this.context.fillRect(this.xOffset, this.yOffset, width, height);
+        if (this.context) {
+            this.context.fillStyle = this.backColor;
+            var width = this.cols * this.blockSize;
+            var height = this.rows * this.blockSize;
+    
+            this.context.fillRect(this.xOffset, this.yOffset, width, height);
+        }
     }
 
     public clearGrid() {
@@ -357,7 +427,7 @@ export class Grid {
     }
 
     private paintSquare(row: any, col: any, color: string | CanvasGradient) {
-        if (row >= 0) { // don't paint rows that are above the grid
+        if (row >= 0 && this.context) { // don't paint rows that are above the grid
             this.context.fillStyle = color;
             this.context.fillRect(this.xOffset + col * this.blockSize, this.yOffset + row * this.blockSize, this.blockSize - 1, this.blockSize - 1);
         }
@@ -376,6 +446,22 @@ export class Grid {
     public paint() {
         this.eraseGrid();
         this.drawGrid();
+    }
+
+    public isTetrisNotifiable(rowsRemoved: number): boolean {
+        /**
+         * #2 Bug:
+         * 
+         * After destroying 4 consequent rows of Tetris blocks, the logo 'Fretris!' should appear.
+         * Unfortunately, it doesn't work right now.
+         * 
+         * Check, if the parameter 'rowsRemoved' is exactly 4 rows long and return 'true' value.
+         * Otherwise, return 'false' value.
+         */
+
+         // Your code goes here.
+         // Remove the 'return undefined' statement, before writing your own implementation.
+         return undefined;
     }
 
     // only the rows in last shape could have been filled
@@ -424,10 +510,10 @@ export class Grid {
         }
 
         if (rowsRemoved > 0) {
-            // Tetris notification, when four rows were removed in one go.
-            if (rowsRemoved === 4) {
-                this.tetrisNotifyCb();
-            }
+            if (this.isTetrisNotifiable(rowsRemoved)) {
+                // Tetris notification, when four rows were removed in one go.
+                this.tetrisNotifyCallback();
+            }  
             this.eraseGrid();
             this.paint();
         }
@@ -448,19 +534,19 @@ export class SoloGame {
     private speed: number; // in milliseconds
     private level: number;
     private rowsCompleted: number;
-    static gameState = { initial: 0, playing: 1, paused: 2, gameover: 3 };
-    private phase = SoloGame.gameState.initial;
+    private gameState = { initial: 0, playing: 1, paused: 2, gameover: 3 };
+    private phase = this.gameState.initial;
     private score: number;
     private timerToken: number;
     private pausedImage: HTMLImageElement;
     private randomShapes: string[] = [];
-    private tetrisNotifyCb: () => void;
+    private tetrisNotifyCallback: () => void;
 
-    constructor(tetrisNotifyCb: () => void) {
+    constructor(tetrisNotifyCallback: () => void) {
         this.canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
         this.nextCanvas = document.getElementById('nextCanvas') as HTMLCanvasElement;
-        this.context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        this.grid = new Grid(16, 10, 20, '#f5f5f5', this.canvas, tetrisNotifyCb);
+        this.context = this.canvas && this.canvas.getContext("2d") as CanvasRenderingContext2D;
+        this.grid = new Grid(16, 10, 20, '#f5f5f5', this.canvas, tetrisNotifyCallback);
         this.nextGrid = new Grid(16, 10, 20, '#f5f5f5', this.nextCanvas);
         this.grid.eraseGrid();
         this.nextGrid.eraseGrid();
@@ -469,11 +555,11 @@ export class SoloGame {
         this.keyhandler = this.keyhandler.bind(this);
         document.addEventListener("keydown", this.keyhandler);
 
-        this.tetrisNotifyCb = tetrisNotifyCb;
+        this.tetrisNotifyCallback = tetrisNotifyCallback;
     }
 
     private draw() {
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             this.grid.paint();
             this.grid.draw(this.currentShape);
             // recursive render loop
@@ -494,7 +580,7 @@ export class SoloGame {
         this.score = 0;
         this.level = -1;
         this.speed = 900;
-        this.phase = SoloGame.gameState.playing;
+        this.phase = this.gameState.playing;
         this.randomShapes = [];
         store.dispatch(setPause(false));
         store.dispatch(setScore(this.score));
@@ -575,7 +661,7 @@ export class SoloGame {
     }
 
     private gameTimer() {
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             var points = this.currentShape.drop();
             if (this.grid.isPosValid(points)) {
                 this.currentShape.setPos(points);
@@ -588,7 +674,7 @@ export class SoloGame {
 
     private keyhandler(event: KeyboardEvent) {
         var points: Point[] = [];
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             switch (event.keyCode) {
                 case 39: // right
                 case 68: // D
@@ -617,7 +703,7 @@ export class SoloGame {
             this.togglePause();
         }
         else if (event.keyCode == 70) { // F = Faster
-            if ((this.level < 10) && (this.phase == SoloGame.gameState.playing) || (this.phase == SoloGame.gameState.paused)) {
+            if ((this.level < 10) && (this.phase == this.gameState.playing) || (this.phase == this.gameState.paused)) {
                 this.incrementLevel();
             }
         }
@@ -625,7 +711,7 @@ export class SoloGame {
 
     public moveLeft() {
         var points: Point[] = [];
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             points = this.currentShape.moveLeft();
 
             if (this.grid.isPosValid(points)) {
@@ -636,7 +722,7 @@ export class SoloGame {
 
     public moveRight() {
         var points: Point[] = [];
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             points = this.currentShape.moveRight();
 
             if (this.grid.isPosValid(points)) {
@@ -647,7 +733,7 @@ export class SoloGame {
 
     public rotate() {
         var points: Point[] = [];
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             points = this.currentShape.rotate(true);
 
             if (this.grid.isPosValid(points)) {
@@ -658,7 +744,7 @@ export class SoloGame {
 
     public moveDown() {
         var points: Point[] = [];
-        if (this.phase == SoloGame.gameState.playing) {
+        if (this.phase == this.gameState.playing) {
             points = this.currentShape.drop();
             if (this.grid.isPosValid(points)) {
                 this.currentShape.setPos(points);
@@ -666,17 +752,50 @@ export class SoloGame {
         }
     }
 
-    private togglePause() {
-        if (this.phase == SoloGame.gameState.paused) {
-            this.phase = SoloGame.gameState.playing;
-            // Kick the render loop off again.
-            store.dispatch(setPause(false));
-            this.draw();
-        }
-        else if (this.phase == SoloGame.gameState.playing) {
-            this.phase = SoloGame.gameState.paused;
-            store.dispatch(setPause(true));
-        }
+    public getGameState() {
+        return this.gameState;
+    }
+
+    public getGamePhase() {
+        return this.phase;
+    }
+
+    public setGamePhase(state) {
+        this.phase = state;
+    }
+
+    public togglePause(): void {
+        /**
+         * #1 Bug:
+         * 
+         * Users can pause & unpause the game, whenever they press a 'P' key. 
+         * Unfortunately, this function is empty, therefore it doesn't do anything!
+         * 
+         * In order to fix this bug, we have to check, if the game is in either 'pause' or 'playing' state.
+         * The current state of the game is stored in 'this.phase' attribute.
+         * 
+         * We have to compare 'this.phase' with an attribute, which is stored in 'this.gameState'.
+         * 
+         * If we then find out, that the game is in 'this.gameState.paused' state, we have to call a method, that will resume the game
+         * (which is the method 'this.setPlayingState').
+         * 
+         * Otherwise, if the game is in 'this.gameState.playing' state, we have to call a method, that will pause the game
+         * (which is the method 'this.setPausedState').
+         */
+
+         // Your code goes here.
+    }
+
+    private setPlayingState() {
+        this.phase = this.gameState.playing;
+        // Kick the render loop off again.
+        store.dispatch(setPause(false));
+        this.draw();
+    }
+
+    private setPausedState() {
+        this.phase = this.gameState.paused;
+        store.dispatch(setPause(true));
     }
 
     private incrementLevel() {
@@ -710,7 +829,7 @@ export class SoloGame {
         }
         else {
             // Game over!
-            this.phase = SoloGame.gameState.gameover;
+            this.phase = this.gameState.gameover;
             clearTimeout(this.timerToken);
         }
     }
@@ -777,9 +896,9 @@ export class DuoGame {
     public score: number;
     public socket: SocketIOClient.Socket;
     public mine: bool;
-    private tetrisNotifyCb: () => void;
+    private tetrisNotifyCallback: () => void;
 
-    constructor(socket: SocketIOClient.Socket, mine: bool, tetrisNotifyCb: () => void) {
+    constructor(socket: SocketIOClient.Socket, mine: bool, tetrisNotifyCallback: () => void) {
         this.socket = socket;
         this.mine = mine;
         if (this.mine) {
@@ -790,7 +909,7 @@ export class DuoGame {
             this.nextCanvas = document.getElementById('nextCanvas') as HTMLCanvasElement;
         }
         this.context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
-        this.grid = new Grid(16, 10, 20, '#f5f5f5', this.canvas, tetrisNotifyCb);
+        this.grid = new Grid(16, 10, 20, '#f5f5f5', this.canvas, tetrisNotifyCallback);
         this.nextGrid = new Grid(16, 10, 20, '#f5f5f5', this.nextCanvas);
         this.grid.eraseGrid();
         this.nextGrid.eraseGrid();
@@ -799,7 +918,7 @@ export class DuoGame {
         if (mine) {
             document.onkeydown = this.keyhandler;
         }
-        this.tetrisNotifyCb = tetrisNotifyCb;
+        this.tetrisNotifyCallback = tetrisNotifyCallback;
     }
 
     public shapeFinished(shape: string) {
@@ -814,7 +933,7 @@ export class DuoGame {
         }
         else {
             // Game over!
-            this.phase = SoloGame.gameState.gameover;
+            this.phase = DuoGame.gameState.gameover;
         }
     }
 
