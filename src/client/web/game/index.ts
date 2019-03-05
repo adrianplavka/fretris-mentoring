@@ -90,7 +90,7 @@ export class Shape {
          */
 
         // Your code goes here.
-        return undefined;
+        return this.move(1, 0);
     }
 
     // Return a set of points showing where this shape would be if we rotate it
@@ -459,6 +459,12 @@ export class Grid {
     }
 
     public isTetrisNotifiable(rowsRemoved: number): boolean {
+        if(rowsRemoved == 4){
+            return true;
+        }
+        return false;
+        
+        
         /**
          * #2 Bug:
          * 
@@ -471,7 +477,7 @@ export class Grid {
 
          // Your code goes here.
          // Remove the 'return undefined' statement, before writing your own implementation.
-         return undefined;
+         
     }
 
     // only the rows in last shape could have been filled
