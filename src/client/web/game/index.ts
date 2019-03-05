@@ -225,6 +225,11 @@ export class StepShape extends Shape {
          */
 
          // Your code goes here.
+         if (leftHanded) {
+             this.fillColor = '#3e4377';
+         } else {
+            this.fillColor = '#e9007f';
+         }
     }
 
     public rotate(clockwise: boolean): Point[] {
