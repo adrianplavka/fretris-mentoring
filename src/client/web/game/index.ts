@@ -58,9 +58,10 @@ export class Shape {
          * Since downward movement is always changing the y coordinate, the x should remain zero.
          * Call this method, that will increase the y coordinates by 1 and then return the value of this method.
          */
+    
 
         // Your code goes here.
-        return undefined;
+        return this.move(0,1);
     }
 
     // Return a set of points showing where this shape would be if we moved left by one
