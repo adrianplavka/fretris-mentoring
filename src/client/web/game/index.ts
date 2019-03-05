@@ -122,7 +122,7 @@ export class SquareShape extends Shape {
          */
 
         // Your code goes here.
-        return [new Point(0, 0)];
+        return this.points;
     }
 }
 
