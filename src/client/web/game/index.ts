@@ -61,7 +61,11 @@ export class Shape {
     
 
         // Your code goes here.
+<<<<<<< HEAD
+        return this.move(0, 1);
+=======
         return this.move(0,1);
+>>>>>>> d1ad4410a6d574763cdbf4ecd747d2ee07abf727
     }
 
     // Return a set of points showing where this shape would be if we moved left by one
@@ -159,6 +163,11 @@ export class LShape extends Shape {
          */
 
          // Your code goes here.
+         if(leftHanded) {
+             this.fillColor = "#ff395e"
+         } else {
+             this.fillColor = "#0fc9e7"
+         }
     }
 
     public rotate(clockwise: boolean): Point[] {
