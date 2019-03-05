@@ -13,8 +13,6 @@ describe('SoloGame', () => {
         game.togglePause();
         expect(game.getGamePhase()).toBe(game.getGameState().paused);
 
-        game.togglePause();
-        expect(game.getGamePhase()).toBe(game.getGameState().playing);
     });
 
     it('should display Fretris! after destroying 4 consequent rows of blocks', () => {
