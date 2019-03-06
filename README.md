@@ -15,7 +15,7 @@ This game of Tetris was written as a personal challenge and in order to spice th
 Technologies include:
  - React, Redux at front-end
  - Node.js, Socket.io at back-end
- - CI integration (CircleCI w/ automatic integration into Heroku)
+ - CI integration (CircleCI w/ continuous deployment into Heroku)
 
 ## Getting started
 
