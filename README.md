@@ -8,14 +8,14 @@
 
 <h4 align="center">Multiplayer Tetris, built w/ React & Node.js.</h4>
 
-***Note:*** *This repository is used for mentoring purposes. For the origin repository, please visit [Fretris](https://github.com/adrianplavka/fretris) page.*
+***Note:*** *This repository is used for mentoring purposes. For the origin repository, please visit [Fretris](https://github.com/adrianplavka/fretris) page. It was used to showcase possibilities of modern web applications, using Git, unit tests, basic implementation & registered CI/CD servers.*
 
 This game of Tetris was written as a personal challenge and in order to spice things a little bit, it includes both solo & multiplayer game modes, in which players can try to last the longest.
 
 Technologies include:
  - React, Redux at front-end
  - Node.js, Socket.io at back-end
- - CI integration (CircleCI w/ continuous deployment into Heroku)
+ - CI/CD integration (CircleCI w/ continuous deployment into Heroku)
 
 ## Getting started
 
